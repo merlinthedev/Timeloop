@@ -2,19 +2,37 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour {
-    private float movementSpeed = 4f;
+    private CustomInput input = null;
+    private Vector2 movementVector = Vector2.zero;
+    private Rigidbody2D rb = null;
+    [SerializeField] private float movementSpeed = 4f;
 
-
-    private Vector2 movementInputVector = Vector2.zero;
-
-    private void Update() {
-        Vector3 movement = new Vector3(movementInputVector.x, 0, movementInputVector.y) * movementSpeed *
-                           Time.deltaTime;
-        transform.Translate(movement);
+    private void Awake() {
+        input = new CustomInput();
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    public void onWalkingAction(InputAction.CallbackContext context) {
-        Debug.Log("movementInputVector: " + movementInputVector);
-        movementInputVector = context.ReadValue<Vector2>();
+    private void OnEnable() {
+        input.Enable();
+        input.Player.Movement.performed += OnMovementPerformed;
+        input.Player.Movement.canceled += OnMovementCancelled;
+    }
+
+    private void OnDisable() {
+        input.Disable();
+        input.Player.Movement.performed -= OnMovementPerformed;
+        input.Player.Movement.canceled -= OnMovementCancelled;
+    }
+
+    private void FixedUpdate() {
+        rb.velocity = movementVector * movementSpeed;
+    }
+
+    private void OnMovementPerformed(InputAction.CallbackContext value) {
+        movementVector = value.ReadValue<Vector2>();
+    }
+
+    private void OnMovementCancelled(InputAction.CallbackContext value) {
+        movementVector = Vector2.zero;
     }
 }
