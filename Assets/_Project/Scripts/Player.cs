@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour {
     private CustomInput input = null;
-    private Vector2 movementVector = Vector2.zero;
     private Rigidbody2D rb = null;
+    private Vector2 movementVector = Vector2.zero;
     [SerializeField] private float movementSpeed = 4f;
 
     private void Awake() {
