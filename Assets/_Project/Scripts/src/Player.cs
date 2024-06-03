@@ -18,6 +18,9 @@ namespace timeloop {
         }
 
         private void OnEnable() {
+            
+            // TODO: Test
+            
             input.Enable();
             input.Player.Movement.performed += OnMovementPerformed;
             input.Player.Movement.canceled += OnMovementCancelled;
@@ -31,10 +34,6 @@ namespace timeloop {
 
         private void FixedUpdate() {
             rb.velocity = movementVector * movementSpeed;
-        }
-
-
-        private void Update() {
             animator.SetBool("IsMoving", rb.velocity != Vector2.zero);
 
             if (rb.velocity.x > 0) {
