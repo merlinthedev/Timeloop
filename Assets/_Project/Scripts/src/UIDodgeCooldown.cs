@@ -1,5 +1,4 @@
-﻿using System;
-using solobranch.qLib;
+﻿using solobranch.qLib;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +7,7 @@ namespace timeloop {
         private Image cooldownSprite = null;
         private bool shouldTick = false;
         private float dodgeCooldown = 0f;
-        
+
         private void OnEnable() {
             EventBus<DodgeUsedEvent>.Subscribe(OnDodgeUsed);
         }
@@ -24,12 +23,12 @@ namespace timeloop {
 
         private void Update() {
             if (!shouldTick) return;
-            
+
             cooldownSprite.fillAmount -= Time.deltaTime / dodgeCooldown;
-            if (cooldownSprite.fillAmount <= 0f) {
-                shouldTick = false;
-                cooldownSprite.fillAmount = 0f;
-            }
+
+            if (!(cooldownSprite.fillAmount <= 0f)) return;
+            shouldTick = false;
+            cooldownSprite.fillAmount = 0f;
         }
 
         private void OnDodgeUsed(DodgeUsedEvent e) {
