@@ -3,7 +3,7 @@
 namespace timeloop {
     public abstract class GameClass : MonoBehaviour {
         [Header("Game Class")] [SerializeField]
-        protected  float dodgeCooldown = 4f;
+        protected float dodgeCooldown = 4f;
 
         protected bool canDodge => dodgeTimer <= 0f;
         protected float dodgeTimer = 0f;
@@ -29,6 +29,10 @@ namespace timeloop {
         }
 
         protected virtual void Update() {
+            TickDodgeCooldown();
+        }
+
+        private void TickDodgeCooldown() {
             if (dodgeTimer > 0f) {
                 dodgeTimer -= Time.deltaTime;
             }
