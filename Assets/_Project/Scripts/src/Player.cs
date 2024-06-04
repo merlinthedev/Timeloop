@@ -4,52 +4,46 @@ using UnityEngine.InputSystem;
 namespace timeloop {
     public class Player : MonoBehaviour {
         private CustomInput input = null;
-        private Rigidbody2D rb = null;
-        private Animator animator;
-        private Vector2 movementVector = Vector2.zero;
-        [SerializeField] private float movementSpeed = 4f;
-
-        // player components
+        private GameClass gameClass = null;
 
         private void Awake() {
             input = new CustomInput();
-            rb = GetComponent<Rigidbody2D>();
-            animator = GetComponent<Animator>();
+            gameClass = GetComponent<GameClass>();
         }
 
         private void OnEnable() {
-            
-            // TODO: Test
-            
-            input.Enable();
-            input.Player.Movement.performed += OnMovementPerformed;
-            input.Player.Movement.canceled += OnMovementCancelled;
+            EnableInput();
         }
 
         private void OnDisable() {
-            input.Disable();
-            input.Player.Movement.performed -= OnMovementPerformed;
-            input.Player.Movement.canceled -= OnMovementCancelled;
+            DisableInput();
         }
 
-        private void FixedUpdate() {
-            rb.velocity = movementVector * movementSpeed;
-            animator.SetBool("IsMoving", rb.velocity != Vector2.zero);
-
-            if (rb.velocity.x > 0) {
-                transform.localScale = new Vector3(-1, 1, 1);
-            }
-            else if (rb.velocity.x < 0) {
-                transform.localScale = new Vector3(1, 1, 1);
-            }
-        }
 
         private void OnMovementPerformed(InputAction.CallbackContext value) {
-            movementVector = value.ReadValue<Vector2>();
+            gameClass.movementVector = value.ReadValue<Vector2>();
         }
 
         private void OnMovementCancelled(InputAction.CallbackContext value) {
-            movementVector = Vector2.zero;
+            gameClass.movementVector = Vector2.zero;
+        }
+
+        private void OnDodgePerformed(InputAction.CallbackContext value) {
+            gameClass.OnDodgePerformed();
+        }
+
+        private void EnableInput() {
+            input.Enable();
+            input.Player.Movement.performed += OnMovementPerformed;
+            input.Player.Movement.canceled += OnMovementCancelled;
+            input.Player.Dodge.performed += OnDodgePerformed;
+        }
+
+        private void DisableInput() {
+            input.Disable();
+            input.Player.Movement.performed -= OnMovementPerformed;
+            input.Player.Movement.canceled -= OnMovementCancelled;
+            input.Player.Dodge.performed -= OnDodgePerformed;
         }
     }
 }
