@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using solobranch.qLib;
+using UnityEngine;
 
 namespace timeloop {
     public class Mage : GameClass {
@@ -21,6 +22,8 @@ namespace timeloop {
             Vector2 blinkPosition = rb.position + movementVector.normalized * blinkDistance;
             rb.MovePosition(blinkPosition);
             dodgeTimer = dodgeCooldown;
+
+            EventBus<DodgeUsedEvent>.Raise(new DodgeUsedEvent(dodgeTimer));
         }
     }
 }
