@@ -1,16 +1,13 @@
 ﻿using UnityEngine;
 
 namespace timeloop {
-    public abstract class GameClass : MonoBehaviour {
-        [Header("Game Class")] [SerializeField]
+    public abstract class GameClass : EntityLiving {
+        [Header("GAME CLASS")] [SerializeField]
         protected float dodgeCooldown = 4f;
 
         protected bool canDodge => dodgeTimer <= 0f;
         protected float dodgeTimer = 0f;
-
-        [SerializeField] private float maxHealth = 20f;
-        private float health;
-
+        
         [SerializeField] private float movementSpeed = 4f;
 
         protected Rigidbody2D rb = null;
@@ -23,11 +20,7 @@ namespace timeloop {
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
         }
-
-        protected virtual void Start() {
-            health = maxHealth;
-        }
-
+        
         protected virtual void Update() {
             TickDodgeCooldown();
         }
