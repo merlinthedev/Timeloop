@@ -8,4 +8,12 @@ namespace timeloop {
             this.dodgeCooldown = dodgeCooldown;
         }
     }
+    
+    public class UIUpdateHealthBarEvent : Event {
+        public readonly float fillAmount;
+
+        public UIUpdateHealthBarEvent(float fillAmount) {
+            this.fillAmount = fillAmount;
+        }
+    }
 }

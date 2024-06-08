@@ -10,7 +10,7 @@ namespace timeloop {
             health = maxHealth;
         }
 
-        public void TakeDamage(Entity source, float damage) {
+        public virtual void TakeDamage(Entity source, float damage) {
             health -= damage;
 
             if (health <= 0) {

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using solobranch.qLib;
+using UnityEngine;
 
 namespace timeloop {
     public abstract class GameClass : EntityLiving {
@@ -29,6 +30,13 @@ namespace timeloop {
             if (dodgeTimer > 0f) {
                 dodgeTimer -= Time.deltaTime;
             }
+        }
+
+        public override void TakeDamage(Entity source, float damage) {
+            base.TakeDamage(source, damage);
+            
+            // raise event for updating healthbar
+            EventBus<UIUpdateHealthBarEvent>.Raise(new UIUpdateHealthBarEvent(health / maxHealth));
         }
 
         protected virtual void FixedUpdate() {

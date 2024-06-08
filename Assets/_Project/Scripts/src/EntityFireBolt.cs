@@ -26,8 +26,6 @@ namespace timeloop {
             if (GameObjectUtilities.HasComponentInHierarchy<EntityLiving>(other.gameObject)) {
                 EntityLiving entityLiving = other.gameObject.GetComponent<EntityLiving>();
                 entityLiving.TakeDamage(this, damage);
-                
-                
             }
         }
     }
