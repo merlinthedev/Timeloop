@@ -44,6 +44,24 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftMouseAbility"",
+                    ""type"": ""Button"",
+                    ""id"": ""cfd7e00b-9138-49ee-ba1f-253e9faa2b3d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightMouseAbility"",
+                    ""type"": ""Button"",
+                    ""id"": ""f534843f-b310-48c0-93c8-175fc16017b0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -178,6 +196,50 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
                     ""action"": ""Dodge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94bd251a-5617-4a42-b1e9-4126b0da9440"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftMouseAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d33e1e42-c841-47b4-b790-8944e991488a"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftMouseAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0d2d842e-48d3-49f1-be6c-0de98fd6fe69"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightMouseAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5e813248-ed5b-4776-abf9-010beb7f17d8"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightMouseAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -194,6 +256,8 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Dodge = m_Player.FindAction("Dodge", throwIfNotFound: true);
+        m_Player_LeftMouseAbility = m_Player.FindAction("LeftMouseAbility", throwIfNotFound: true);
+        m_Player_RightMouseAbility = m_Player.FindAction("RightMouseAbility", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -257,12 +321,16 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Dodge;
+    private readonly InputAction m_Player_LeftMouseAbility;
+    private readonly InputAction m_Player_RightMouseAbility;
     public struct PlayerActions
     {
         private @CustomInput m_Wrapper;
         public PlayerActions(@CustomInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Dodge => m_Wrapper.m_Player_Dodge;
+        public InputAction @LeftMouseAbility => m_Wrapper.m_Player_LeftMouseAbility;
+        public InputAction @RightMouseAbility => m_Wrapper.m_Player_RightMouseAbility;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -278,6 +346,12 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
             @Dodge.started += instance.OnDodge;
             @Dodge.performed += instance.OnDodge;
             @Dodge.canceled += instance.OnDodge;
+            @LeftMouseAbility.started += instance.OnLeftMouseAbility;
+            @LeftMouseAbility.performed += instance.OnLeftMouseAbility;
+            @LeftMouseAbility.canceled += instance.OnLeftMouseAbility;
+            @RightMouseAbility.started += instance.OnRightMouseAbility;
+            @RightMouseAbility.performed += instance.OnRightMouseAbility;
+            @RightMouseAbility.canceled += instance.OnRightMouseAbility;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -288,6 +362,12 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
             @Dodge.started -= instance.OnDodge;
             @Dodge.performed -= instance.OnDodge;
             @Dodge.canceled -= instance.OnDodge;
+            @LeftMouseAbility.started -= instance.OnLeftMouseAbility;
+            @LeftMouseAbility.performed -= instance.OnLeftMouseAbility;
+            @LeftMouseAbility.canceled -= instance.OnLeftMouseAbility;
+            @RightMouseAbility.started -= instance.OnRightMouseAbility;
+            @RightMouseAbility.performed -= instance.OnRightMouseAbility;
+            @RightMouseAbility.canceled -= instance.OnRightMouseAbility;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -318,5 +398,7 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
+        void OnLeftMouseAbility(InputAction.CallbackContext context);
+        void OnRightMouseAbility(InputAction.CallbackContext context);
     }
 }

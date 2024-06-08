@@ -31,6 +31,14 @@ namespace timeloop {
         private void OnDodgePerformed(InputAction.CallbackContext value) {
             gameClass.OnDodgePerformed();
         }
+        
+        private void OnAbiltiy1Performed(InputAction.CallbackContext value) {
+            gameClass.OnAbility1Performed();
+        }
+        
+        private void OnAbiltiy2Performed(InputAction.CallbackContext value) {
+            gameClass.OnAbility2Performed();
+        }
 
         private void EnableInput() {
             input.Enable();

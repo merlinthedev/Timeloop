@@ -18,6 +18,14 @@ namespace timeloop {
             Blink();
         }
 
+        public override void OnAbility1Performed() {
+            ability1?.OnUse();
+        }
+
+        public override void OnAbility2Performed() {
+            ability2?.OnUse();
+        }
+
         private void Blink() {
             Vector2 blinkPosition = rb.position + movementVector.normalized * blinkDistance;
             rb.MovePosition(blinkPosition);

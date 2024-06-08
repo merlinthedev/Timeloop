@@ -14,8 +14,14 @@ namespace timeloop {
         protected Rigidbody2D rb = null;
         private Animator animator;
         public Vector2 movementVector = Vector2.zero;
+        
+        // Abilities
+        protected Ability ability1;
+        protected Ability ability2;
 
         public abstract void OnDodgePerformed();
+        public abstract void OnAbility1Performed();
+        public abstract void OnAbility2Performed();
 
         private void Awake() {
             rb = GetComponent<Rigidbody2D>();
