@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace timeloop {
-    public class Boss : EntityLiving {
+    public class Boss : EntityDamager {
         private GameClass playerEntity;
 
         private float timeBetweenMovements = 1.5f;
@@ -60,7 +60,7 @@ namespace timeloop {
 
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag("Player")) {
-                playerEntity.TakeDamage(this, 1f);
+                playerEntity.TakeDamage(this, damage);
             }
         }
 

@@ -31,11 +31,11 @@ namespace timeloop {
         private void OnDodgePerformed(InputAction.CallbackContext value) {
             gameClass.OnDodgePerformed();
         }
-        
+
         private void OnAbiltiy1Performed(InputAction.CallbackContext value) {
             gameClass.OnAbility1Performed();
         }
-        
+
         private void OnAbiltiy2Performed(InputAction.CallbackContext value) {
             gameClass.OnAbility2Performed();
         }
@@ -45,6 +45,8 @@ namespace timeloop {
             input.Player.Movement.performed += OnMovementPerformed;
             input.Player.Movement.canceled += OnMovementCancelled;
             input.Player.Dodge.performed += OnDodgePerformed;
+            input.Player.LeftMouseAbility.performed += OnAbiltiy1Performed;
+            input.Player.RightMouseAbility.performed += OnAbiltiy2Performed;
         }
 
         private void DisableInput() {
@@ -52,6 +54,8 @@ namespace timeloop {
             input.Player.Movement.performed -= OnMovementPerformed;
             input.Player.Movement.canceled -= OnMovementCancelled;
             input.Player.Dodge.performed -= OnDodgePerformed;
+            input.Player.LeftMouseAbility.performed -= OnAbiltiy1Performed;
+            input.Player.RightMouseAbility.performed -= OnAbiltiy2Performed;
         }
     }
 }

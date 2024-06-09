@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace timeloop {
-    public abstract class GameClass : EntityLiving {
+    public abstract class GameClass : EntityDamager {
         [Header("GAME CLASS")] [SerializeField]
         protected float dodgeCooldown = 4f;
 
@@ -13,11 +13,11 @@ namespace timeloop {
 
         protected Rigidbody2D rb = null;
         private Animator animator;
-        public Vector2 movementVector = Vector2.zero;
+        [HideInInspector] public Vector2 movementVector = Vector2.zero;
         
         // Abilities
-        protected Ability ability1;
-        protected Ability ability2;
+        [SerializeField] protected Ability ability1;
+        [SerializeField] protected Ability ability2;
 
         public abstract void OnDodgePerformed();
         public abstract void OnAbility1Performed();
@@ -43,6 +43,7 @@ namespace timeloop {
             
             // raise event for updating healthbar
             EventBus<UIUpdateHealthBarEvent>.Raise(new UIUpdateHealthBarEvent(health / maxHealth));
+            Debug.Log("Raising healthbar event/.");
         }
 
         protected virtual void FixedUpdate() {

@@ -19,11 +19,11 @@ namespace timeloop {
         }
 
         public override void OnAbility1Performed() {
-            ability1?.OnUse();
+            ability1?.OnUse(this);
         }
 
         public override void OnAbility2Performed() {
-            ability2?.OnUse();
+            ability2?.OnUse(this);
         }
 
         private void Blink() {

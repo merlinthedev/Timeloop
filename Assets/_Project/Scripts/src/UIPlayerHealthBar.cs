@@ -16,6 +16,8 @@ namespace timeloop {
 
 
         private void UpdatePlayerHealthBar(UIUpdateHealthBarEvent e) {
+            Debug.Log("Handling healthbar event.");
+            Debug.Log(e.fillAmount + " fill amount.");
             healthBarImage.fillAmount = e.fillAmount;
         }
     }

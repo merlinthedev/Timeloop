@@ -464,10 +464,10 @@ GameObject:
   - component: {fileID: 703392327}
   - component: {fileID: 703392326}
   - component: {fileID: 703392325}
-  - component: {fileID: 703392328}
-  - component: {fileID: 703392329}
   - component: {fileID: 703392330}
+  - component: {fileID: 703392329}
   - component: {fileID: 703392331}
+  - component: {fileID: 703392328}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -615,9 +615,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
+  damage: 4
   dodgeCooldown: 4
   movementSpeed: 5.2
   movementVector: {x: 0, y: 0}
+  ability1: {fileID: -8708657421798505969, guid: e207faa752ca59a4480750f473479c36,
+    type: 3}
+  ability2: {fileID: 0}
   blinkDistance: 3.5
 --- !u!61 &703392331
 BoxCollider2D:
@@ -1025,6 +1029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 40
+  damage: 12
   movementSpeed: 12
   currentState: 0
 --- !u!61 &1715997520
