@@ -13,17 +13,18 @@ namespace timeloop {
 
         public abstract void OnUse(EntityDamager damager);
 
-        protected virtual void Update() {
-            Debug.Log("abilityTimer: " + abilityTimer);
-            
+
+        public void Initialize() {
+            abilityTimer = 0f;
+        }
+        
+        public void Tick() {
             TickAbilityCooldown();
         }
 
         private void TickAbilityCooldown() {
-            Debug.Log("Checking tick cooldown.");
             if (abilityTimer > 0f) {
                 abilityTimer -= Time.deltaTime;
-                Debug.Log("Ticked cooldown.", this);
             }
         }
     }

@@ -8,8 +8,6 @@ namespace timeloop {
 
         public override void OnUse(EntityDamager damager) {
             if (!canUse) {
-                Debug.Log("Can't use firebolt yet.", this);
-                Debug.Log("CanUse: " + canUse + ", abilityTimer: " + abilityTimer, this);
                 return;
             }
 
@@ -18,7 +16,6 @@ namespace timeloop {
             entityFireBolt.Constructor(fireBoltSpeed, damager.GetDamage(),
                 MathUtilities.__((Vector2)damager.transform.position));
             
-            Debug.Log("used firebolt.");
 
             PostAbilityUse();
         }

@@ -26,10 +26,23 @@ namespace timeloop {
         private void Awake() {
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
+            
+            ability1?.Initialize();
+            ability2?.Initialize();
         }
         
         protected virtual void Update() {
+            TickCooldowns();
+        }
+
+        private void TickCooldowns() {
             TickDodgeCooldown();
+            TickAbilityCooldowns();
+        }
+
+        private void TickAbilityCooldowns() {
+            ability1?.Tick();
+            ability2?.Tick();
         }
 
         private void TickDodgeCooldown() {
