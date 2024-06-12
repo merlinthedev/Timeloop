@@ -19,14 +19,11 @@ namespace timeloop {
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
-            if (other.gameObject.CompareTag("Player")) {
-                return;
-            }
-            
-            Debug.Log("Firebolt collided with " + other.gameObject.name);
+            if (GameObjectUtilities.HasComponentInHierarchy<EntityLiving>(other.gameObject) &&
+                !other.gameObject.CompareTag("Player")) {
+                EntityLiving entityLiving = GameObjectUtilities.FindTopLevelParent(other.gameObject.transform)
+                    .GetComponentInChildren<EntityLiving>();
 
-            if (GameObjectUtilities.HasComponentInHierarchy<EntityLiving>(other.gameObject)) {
-                EntityLiving entityLiving = other.gameObject.GetComponent<EntityLiving>();
                 entityLiving.TakeDamage(this, damage);
             }
         }

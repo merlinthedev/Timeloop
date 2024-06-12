@@ -19,7 +19,6 @@ namespace timeloop {
         }
 
         private void Awake() {
-            DontDestroyOnLoad(gameObject);
             instance = this.GetComponent<Canvas>();
         }
 

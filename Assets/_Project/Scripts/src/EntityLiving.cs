@@ -18,7 +18,7 @@ namespace timeloop {
             }
         }
 
-        private void Die() {
+        protected virtual void Die() {
             Destroy(gameObject);
         }
     }

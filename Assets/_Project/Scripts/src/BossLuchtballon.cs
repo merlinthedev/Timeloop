@@ -19,8 +19,18 @@ namespace timeloop {
 
         protected override void Start() {
             base.Start();
-            
+
             RenderBossbar();
+
+            bossBar = Instantiate(bossBarPrefab, CanvasSingleton.instance.transform);
+
+            Image[] images = bossBar.GetComponentsInChildren<Image>();
+            for (int i = 0; i < images.Length; i++) {
+                if (images[i].fillMethod == Image.FillMethod.Horizontal) {
+                    images[i].fillAmount = 1f;
+                    final = images[i];
+                }
+            }
         }
 
         protected override void Update() {
@@ -37,18 +47,13 @@ namespace timeloop {
         }
 
         protected override void RenderBossbar() {
-            Image[] images = bossBarPrefab.GetComponentsInChildren<Image>();
-            for (int i = 0; i < images.Length; i++) {
-                if (images[i].fillMethod == Image.FillMethod.Horizontal) {
-                    final = images[i];
-                }
-            }
-            
             base.RenderBossbar();
+        }
 
-            GameObject bossBar = Instantiate(bossBarPrefab, CanvasSingleton.instance.transform);
-            bossBar.transform.SetAsFirstSibling();
+        protected override void Die() {
+            Destroy(bossBar);
             
+            base.Die();
         }
 
         private void Move() {
