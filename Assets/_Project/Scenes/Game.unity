@@ -614,7 +614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a5c16e088c447a28364c3cb16d815fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 2000
   damage: 4
   dodgeCooldown: 4
   movementSpeed: 5.2
@@ -1076,6 +1076,8 @@ MonoBehaviour:
   maxHealth: 49
   damage: 3
   movementSpeed: 12
+  bossBarPrefab: {fileID: 4064093880965334193, guid: 478d8dbdcdb083848a45af5ed8ab70ce,
+    type: 3}
 --- !u!1 &1784037828
 GameObject:
   m_ObjectHideFlags: 0

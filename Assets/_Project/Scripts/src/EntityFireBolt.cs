@@ -22,6 +22,8 @@ namespace timeloop {
             if (other.gameObject.CompareTag("Player")) {
                 return;
             }
+            
+            Debug.Log("Firebolt collided with " + other.gameObject.name);
 
             if (GameObjectUtilities.HasComponentInHierarchy<EntityLiving>(other.gameObject)) {
                 EntityLiving entityLiving = other.gameObject.GetComponent<EntityLiving>();

@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace timeloop {
     public class BossLuchtballon : Boss {
         [Header("BOSS LUCHTBALLON")] [SerializeField]
         private float movementSpeed = 12f;
+
+        [SerializeField] private GameObject bossBarPrefab;
 
         private float timeBetweenMovements = 1.5f;
         private float timeBetweenTargetSelectionAndMovement = 0.8f;
@@ -13,17 +16,39 @@ namespace timeloop {
 
         private BossState currentState = BossState.IDLE; // make private, also the enum
 
+
+        protected override void Start() {
+            base.Start();
+            
+            RenderBossbar();
+        }
+
         protected override void Update() {
             base.Update();
 
             HandleStates();
         }
-        
+
         protected override void GetPlayerPosition() {
             base.GetPlayerPosition();
 
             targetSelectionTimer = timeBetweenTargetSelectionAndMovement;
             currentState = BossState.TARGETING;
+        }
+
+        protected override void RenderBossbar() {
+            Image[] images = bossBarPrefab.GetComponentsInChildren<Image>();
+            for (int i = 0; i < images.Length; i++) {
+                if (images[i].fillMethod == Image.FillMethod.Horizontal) {
+                    final = images[i];
+                }
+            }
+            
+            base.RenderBossbar();
+
+            GameObject bossBar = Instantiate(bossBarPrefab, CanvasSingleton.instance.transform);
+            bossBar.transform.SetAsFirstSibling();
+            
         }
 
         private void Move() {
