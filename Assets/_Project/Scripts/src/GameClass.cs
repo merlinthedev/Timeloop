@@ -56,7 +56,6 @@ namespace timeloop {
             
             // raise event for updating healthbar
             EventBus<UIUpdateHealthBarEvent>.Raise(new UIUpdateHealthBarEvent(health / maxHealth));
-            Debug.Log("Raising healthbar event/.");
         }
 
         protected virtual void FixedUpdate() {
