@@ -14,7 +14,7 @@ namespace timeloop {
         private float movementTimer = 0f;
         private float targetSelectionTimer = 0f;
 
-        private BossState currentState = BossState.IDLE; // make private, also the enum
+        private BossLuchtballonState currentState = BossLuchtballonState.IDLE; // make private, also the enum
 
 
         protected override void Start() {
@@ -43,7 +43,7 @@ namespace timeloop {
             base.GetPlayerPosition();
 
             targetSelectionTimer = timeBetweenTargetSelectionAndMovement;
-            currentState = BossState.TARGETING;
+            currentState = BossLuchtballonState.TARGETING;
         }
 
         protected override void RenderBossbar() {
@@ -65,26 +65,27 @@ namespace timeloop {
             }
             else {
                 movementTimer = timeBetweenMovements;
-                currentState = BossState.WAITING;
+                currentState = BossLuchtballonState.WAITING;
             }
         }
 
+
         private void HandleStates() {
             switch (currentState) {
-                case BossState.IDLE:
+                case BossLuchtballonState.IDLE:
                     GetPlayerPosition();
                     break;
-                case BossState.WAITING:
+                case BossLuchtballonState.WAITING:
                     TickMovementTimer();
                     break;
-                case BossState.TARGETING:
+                case BossLuchtballonState.TARGETING:
                     TickTargetSelectionTimer();
                     break;
-                case BossState.MOVING:
+                case BossLuchtballonState.MOVING:
                     Move();
                     break;
                 default:
-                    currentState = BossState.IDLE;
+                    currentState = BossLuchtballonState.IDLE;
                     break;
             }
         }
@@ -93,7 +94,7 @@ namespace timeloop {
             movementTimer -= Time.deltaTime;
 
             if (movementTimer <= 0f) {
-                currentState = BossState.IDLE;
+                currentState = BossLuchtballonState.IDLE;
             }
         }
 
@@ -101,11 +102,11 @@ namespace timeloop {
             targetSelectionTimer -= Time.deltaTime;
 
             if (targetSelectionTimer <= 0f) {
-                currentState = BossState.MOVING;
+                currentState = BossLuchtballonState.MOVING;
             }
         }
 
-        private enum BossState {
+        private enum BossLuchtballonState {
             IDLE,
             WAITING,
             TARGETING,
