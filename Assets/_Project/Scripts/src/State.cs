@@ -1,12 +1,12 @@
 ﻿namespace timeloop {
     public abstract class State {
-        public virtual void Enter() {
+        protected BossLuchtballon.BossData bossData;
+        protected State(BossLuchtballon.BossData bossData) {
+            this.bossData = bossData;
         }
-
-        public virtual void Tick() {
-        }
-
-        public virtual void Exit() {
-        }
+        
+        public virtual void Enter() {}
+        public virtual void Tick() {}
+        public virtual void Exit() {}
     }
 }

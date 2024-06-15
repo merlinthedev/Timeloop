@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace timeloop {
     public abstract class Boss : EntityDamager {
-        private GameClass playerEntity;
+        protected GameClass playerEntity;
         protected Vector2 playerPosition;
         protected Image final;
         protected GameObject bossBar;
@@ -17,8 +17,7 @@ namespace timeloop {
         }
 
         protected virtual void Update() {
-        }
-
+        }   
 
         protected virtual void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag("Player")) {

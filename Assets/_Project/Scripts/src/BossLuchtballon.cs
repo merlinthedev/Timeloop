@@ -14,8 +14,12 @@ namespace timeloop {
         private float movementTimer = 0f;
         private float targetSelectionTimer = 0f;
 
-        private BossLuchtballonState currentState = BossLuchtballonState.IDLE; // make private, also the enum
+        [field: SerializeField]
+        public BossLuchtballonState currentState { get; private set; } =
+            BossLuchtballonState.IDLE; // make private, also the enum
 
+        private LuchtballonStateMachine bossStateMachine;
+        private BossData bossData;
 
         protected override void Start() {
             base.Start();
@@ -31,12 +35,33 @@ namespace timeloop {
                     final = images[i];
                 }
             }
+
+            StartStateMachine();
+        }
+
+        private void StartStateMachine() {
+            bossData = new BossData(this, playerEntity, maxHealth);
+            bossStateMachine = new LuchtballonStateMachine(bossData);
+            
+            LuchtballonPhaseMachine phaseOne = new LuchtballonPhaseMachine(bossData);
+
+            LuchtballonMoveState phaseOneMoveState =
+                new LuchtballonMoveState(bossData, timeBetweenTargetSelectionAndMovement);
+            
+            phaseOne.AddPhase("MOVE_STATE", phaseOneMoveState);
+            
+            bossStateMachine.AddPhase("PHASE_ONE", phaseOne);
+
+
+
+
         }
 
         protected override void Update() {
             base.Update();
 
-            HandleStates();
+            // tick the current phase
+            bossStateMachine.Tick();
         }
 
         protected override void GetPlayerPosition() {
@@ -46,13 +71,17 @@ namespace timeloop {
             currentState = BossLuchtballonState.TARGETING;
         }
 
+        public void ResetState() {
+            currentState = BossLuchtballonState.IDLE;
+        }
+
         protected override void RenderBossbar() {
             base.RenderBossbar();
         }
 
         protected override void Die() {
             Destroy(bossBar);
-            
+
             base.Die();
         }
 
@@ -66,27 +95,6 @@ namespace timeloop {
             else {
                 movementTimer = timeBetweenMovements;
                 currentState = BossLuchtballonState.WAITING;
-            }
-        }
-
-
-        private void HandleStates() {
-            switch (currentState) {
-                case BossLuchtballonState.IDLE:
-                    GetPlayerPosition();
-                    break;
-                case BossLuchtballonState.WAITING:
-                    TickMovementTimer();
-                    break;
-                case BossLuchtballonState.TARGETING:
-                    TickTargetSelectionTimer();
-                    break;
-                case BossLuchtballonState.MOVING:
-                    Move();
-                    break;
-                default:
-                    currentState = BossLuchtballonState.IDLE;
-                    break;
             }
         }
 
@@ -106,11 +114,24 @@ namespace timeloop {
             }
         }
 
-        private enum BossLuchtballonState {
+        public enum BossLuchtballonState {
             IDLE,
             WAITING,
             TARGETING,
             MOVING,
+        }
+
+        public class BossData {
+            public readonly BossLuchtballon boss;
+            public readonly GameClass playerEntity;
+            public readonly float maxHealth;
+            public readonly float phaseOneHealthCutOff = 0.4f; // TODO: maybe make customizable later?
+
+            public BossData(BossLuchtballon boss, GameClass playerEntity, float maxHealth) {
+                this.boss = boss;
+                this.playerEntity = playerEntity;
+                this.maxHealth = maxHealth;
+            }
         }
     }
 }

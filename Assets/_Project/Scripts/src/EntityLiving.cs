@@ -21,5 +21,9 @@ namespace timeloop {
         protected virtual void Die() {
             Destroy(gameObject);
         }
+
+        public float GetHealth() {
+            return health;
+        }
     }
 }
