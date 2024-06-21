@@ -2,30 +2,30 @@
 
 namespace timeloop {
     public class LuchtballonPhaseMachine : State {
-        private State currentPhase;
-        private Dictionary<string, State> phases = new();
+        private State currentState;
+        private Dictionary<string, State> states = new();
         private BossLuchtballon.BossData bossData;
 
         public LuchtballonPhaseMachine(BossLuchtballon.BossData bossData) : base(bossData) {
             this.bossData = bossData;
         }
 
-        public void AddPhase(string phaseName, State phaseState) {
-            phases[phaseName] = phaseState;
+        public void AddPhase(string stateName, State state) {
+            states[stateName] = state;
         }
 
         public void ChangeState(string phaseName) {
-            if (currentPhase != null) {
-                currentPhase.Exit();
+            if (currentState != null) {
+                currentState.Exit();
             }
 
-            currentPhase = phases[phaseName];
-            currentPhase.Enter();
+            currentState = states[phaseName];
+            currentState.Enter();
         }
 
         public override void Tick() {
-            if (currentPhase != null) {
-                currentPhase.Tick();
+            if (currentState != null) {
+                currentState.Tick();
             }
         }
     }
