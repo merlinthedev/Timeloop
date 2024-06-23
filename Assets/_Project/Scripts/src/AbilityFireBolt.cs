@@ -14,7 +14,7 @@ namespace timeloop {
             EntityFireBolt entityFireBolt = Instantiate(fireBoltPrefab, damager.transform.position, Quaternion.identity)
                 .GetComponent<EntityFireBolt>();
             entityFireBolt.Constructor(fireBoltSpeed, damager.GetDamage(),
-                MathUtilities.__((Vector2)damager.transform.position));
+                MathUtilities.GetDirectionFromMouseToOrigin((Vector2)damager.transform.position));
             
 
             PostAbilityUse();

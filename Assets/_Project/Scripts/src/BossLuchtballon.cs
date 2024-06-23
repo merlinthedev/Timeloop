@@ -18,8 +18,8 @@ namespace timeloop {
         public BossLuchtballonState currentState { get; private set; } =
             BossLuchtballonState.IDLE; // make private, also the enum
 
-        private LuchtballonStateMachine bossStateMachine;
-        private BossData bossData;
+        private IBossBehaviour[] behaviours;
+        private IBossBehaviour currentBehaviour;
 
         protected override void Start() {
             base.Start();
@@ -35,48 +35,31 @@ namespace timeloop {
                     final = images[i];
                 }
             }
-
-            StartStateMachine();
+            
+            InitializeBossBehaviour();
         }
 
-        private void StartStateMachine() {
-            bossData = new BossData(this, playerEntity, maxHealth);
-            bossStateMachine = new LuchtballonStateMachine(bossData);
-            
-            LuchtballonPhaseMachine phaseOne = new LuchtballonPhaseMachine(bossData);
-
-            LuchtballonMoveState phaseOneMoveState =
-                new LuchtballonMoveState(bossData, timeBetweenTargetSelectionAndMovement);
-            
-            phaseOne.AddPhase("MOVE_STATE", phaseOneMoveState);
-            
-            bossStateMachine.AddPhase("PHASE_ONE", phaseOne);
-
-
-
-
-        }
 
         protected override void Update() {
             base.Update();
 
             // tick the current phase
-            bossStateMachine.Tick();
+            currentBehaviour.Tick();
         }
 
-        protected override void GetPlayerPosition() {
+        public override void TakeDamage(Entity source, float damage) {
+            base.TakeDamage(source, damage);
+
+            if (ShouldChangePhase()) {
+                
+            }
+        }
+
+        public override void GetPlayerPosition() {
             base.GetPlayerPosition();
 
             targetSelectionTimer = timeBetweenTargetSelectionAndMovement;
             currentState = BossLuchtballonState.TARGETING;
-        }
-
-        public void ResetState() {
-            currentState = BossLuchtballonState.IDLE;
-        }
-
-        protected override void RenderBossbar() {
-            base.RenderBossbar();
         }
 
         protected override void Die() {
@@ -85,33 +68,18 @@ namespace timeloop {
             base.Die();
         }
 
-        private void Move() {
-            // if the entity reaches the player position, stop moving
-            if (Vector2.Distance(transform.position, playerPosition) >= 0.1f) {
-                // move the entity
-                transform.position =
-                    Vector2.MoveTowards(transform.position, playerPosition, movementSpeed * Time.deltaTime);
-            }
-            else {
-                movementTimer = timeBetweenMovements;
-                currentState = BossLuchtballonState.WAITING;
-            }
+        private void InitializeBossBehaviour() {
+            behaviours = new IBossBehaviour[] {
+                new LuchtballonPhaseOneBehaviour(this)
+            };
+            
+            currentBehaviour = behaviours[0];
         }
 
-        private void TickMovementTimer() {
-            movementTimer -= Time.deltaTime;
+        
 
-            if (movementTimer <= 0f) {
-                currentState = BossLuchtballonState.IDLE;
-            }
-        }
-
-        private void TickTargetSelectionTimer() {
-            targetSelectionTimer -= Time.deltaTime;
-
-            if (targetSelectionTimer <= 0f) {
-                currentState = BossLuchtballonState.MOVING;
-            }
+        private bool ShouldChangePhase() {
+            return health <= maxHealth / 3; // 33% health
         }
 
         public enum BossLuchtballonState {
@@ -119,19 +87,6 @@ namespace timeloop {
             WAITING,
             TARGETING,
             MOVING,
-        }
-
-        public class BossData {
-            public readonly BossLuchtballon boss;
-            public readonly GameClass playerEntity;
-            public readonly float maxHealth;
-            public readonly float phaseOneHealthCutOff = 0.4f; // TODO: maybe make customizable later?
-
-            public BossData(BossLuchtballon boss, GameClass playerEntity, float maxHealth) {
-                this.boss = boss;
-                this.playerEntity = playerEntity;
-                this.maxHealth = maxHealth;
-            }
         }
     }
 }

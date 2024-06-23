@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 namespace timeloop {
     public abstract class Boss : EntityDamager {
-        protected GameClass playerEntity;
-        protected Vector2 playerPosition;
+        public GameClass playerEntity { get; protected set; }
+        public Vector2 playerPosition { get; protected set; }
         protected Image final;
         protected GameObject bossBar;
 
@@ -17,7 +17,7 @@ namespace timeloop {
         }
 
         protected virtual void Update() {
-        }   
+        }
 
         protected virtual void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag("Player")) {
@@ -38,7 +38,7 @@ namespace timeloop {
             EventBus<UIUpdateBossBarEvent>.Raise(new UIUpdateBossBarEvent(this, fillAmount));
         }
 
-        protected virtual void GetPlayerPosition() {
+        public virtual void GetPlayerPosition() {
             playerPosition = playerEntity.transform.position;
         }
 
