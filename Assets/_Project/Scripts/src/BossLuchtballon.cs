@@ -7,17 +7,8 @@ namespace timeloop {
         private float movementSpeed = 12f;
 
         [SerializeField] private GameObject bossBarPrefab;
-
-        private float timeBetweenMovements = 1.5f;
-        private float timeBetweenTargetSelectionAndMovement = 0.8f;
-
-        private float movementTimer = 0f;
-        private float targetSelectionTimer = 0f;
-
-        [field: SerializeField]
-        public BossLuchtballonState currentState { get; private set; } =
-            BossLuchtballonState.IDLE; // make private, also the enum
-
+        
+        
         private IBossBehaviour[] behaviours;
         private IBossBehaviour currentBehaviour;
 
@@ -51,15 +42,8 @@ namespace timeloop {
             base.TakeDamage(source, damage);
 
             if (ShouldChangePhase()) {
-                
+                // change phase with behaviour
             }
-        }
-
-        public override void GetPlayerPosition() {
-            base.GetPlayerPosition();
-
-            targetSelectionTimer = timeBetweenTargetSelectionAndMovement;
-            currentState = BossLuchtballonState.TARGETING;
         }
 
         protected override void Die() {
@@ -81,12 +65,13 @@ namespace timeloop {
         private bool ShouldChangePhase() {
             return health <= maxHealth / 3; // 33% health
         }
+        
+        #region Getters
 
-        public enum BossLuchtballonState {
-            IDLE,
-            WAITING,
-            TARGETING,
-            MOVING,
+        public float GetMovementSpeed() {
+            return movementSpeed;
         }
+        
+        #endregion
     }
 }
