@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace timeloop {
@@ -7,9 +9,9 @@ namespace timeloop {
         private float movementSpeed = 12f;
 
         [SerializeField] private GameObject bossBarPrefab;
-        
-        
-        private IBossBehaviour[] behaviours;
+
+
+        private List<IBossBehaviour> behaviours;
         private IBossBehaviour currentBehaviour;
 
         protected override void Start() {
@@ -26,7 +28,7 @@ namespace timeloop {
                     final = images[i];
                 }
             }
-            
+
             InitializeBossBehaviour();
         }
 
@@ -43,7 +45,21 @@ namespace timeloop {
 
             if (ShouldChangePhase()) {
                 // change phase with behaviour
+                currentBehaviour.Exit();
             }
+        }
+
+        public void NextPhase() {
+            // set the currentBehaviour to the next in the list, do not hard code the index
+            if (behaviours.IndexOf(currentBehaviour) + 1 >= behaviours.Count) {
+                Debug.LogError("No more behaviours to switch to");
+                Environment.Exit(0); // not the best way to handle this, but it's a quick fix
+                return;
+            }
+
+            currentBehaviour = behaviours[behaviours.IndexOf(currentBehaviour) + 1];
+
+            currentBehaviour.Enter();
         }
 
         protected override void Die() {
@@ -53,25 +69,29 @@ namespace timeloop {
         }
 
         private void InitializeBossBehaviour() {
-            behaviours = new IBossBehaviour[] {
-                new LuchtballonPhaseOneBehaviour(this)
+            behaviours = new List<IBossBehaviour> {
+                new LuchtballonPhaseOneBehaviour(this),
+                new LuchtballonPhaseTwoBehaviour(this),
             };
-            
+
             currentBehaviour = behaviours[0];
         }
 
-        
 
         private bool ShouldChangePhase() {
-            return health <= maxHealth / 3; // 33% health
+            return health <= maxHealth / 2; // 50% health
         }
-        
-        #region Getters
+
+        #region Getters & Setters
 
         public float GetMovementSpeed() {
             return movementSpeed;
         }
-        
+
+        public void SetMovementSpeed(float movementSpeed) {
+            this.movementSpeed = movementSpeed;
+        }
+
         #endregion
     }
 }
