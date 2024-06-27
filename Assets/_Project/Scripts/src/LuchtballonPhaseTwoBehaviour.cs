@@ -10,7 +10,7 @@ namespace timeloop {
         private float cooldownTimer = 0f;
 
         private List<Ability> bossAbilities;
-        
+
         public LuchtballonPhaseTwoBehaviour(BossLuchtballon boss) {
             this.boss = boss;
         }
@@ -24,7 +24,8 @@ namespace timeloop {
             HandleState();
         }
 
-        public void Exit() { }
+        public void Exit() {
+        }
 
         private void HandleState() {
             switch (currentState) {
@@ -36,20 +37,32 @@ namespace timeloop {
                     currentState = r == 0 ? BossState.MOVING : BossState.CASTING;
                     break;
                 case BossState.MOVING:
+                    Move();
                     break;
                 case BossState.CASTING:
+                    Cast();
                     break;
             }
         }
-        
-        private void Move() {}
-        private void Cast() {}
+
+        private void Move() {
+            boss.transform.position = Vector3.MoveTowards(boss.transform.position, boss.GetPlayerPosition(),
+                boss.GetMovementSpeed() * Time.deltaTime);
+        }
+
+        private void Cast() {
+            Debug.Log("casting or smth");
+            currentState = BossState.COOLDOWN;
+        }
 
         private void TickCooldownTimer() {
             cooldownTimer -= Time.deltaTime;
 
             if (cooldownTimer <= 0) {
                 currentState = BossState.EVALUATE;
+
+                // make sure that the next time we go into cooldown state the timer has been reset.
+                cooldownTimer = cooldownTime;
             }
         }
 

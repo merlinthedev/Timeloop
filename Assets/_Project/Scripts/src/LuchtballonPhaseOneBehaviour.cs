@@ -14,8 +14,9 @@ namespace timeloop {
 
         private float smallestScale = 0.4f;
         private float finalScale = 0.6f;
+        private float scaleFactor = 0.04f;
 
-        private bool increasing => boss.transform.localScale.x < smallestScale;
+        private bool increasing = false;
 
 
         public LuchtballonPhaseOneBehaviour(BossLuchtballon boss) {
@@ -38,6 +39,7 @@ namespace timeloop {
             boss.SetInvulnerable(true);
             boss.SetMovementSpeed(0f);
             currentState = BossLuchtballonState.EXITING;
+            Debug.Log("Exising phase one");
         }
 
         private void HandleState() {
@@ -61,17 +63,23 @@ namespace timeloop {
         }
 
         private void HandleScaleLerping() {
-            // first slowly decrease the scale to 0.8f, then when it is has reached that, scale to 1.2f
+            Debug.Log("Lerping scale");
             if (increasing) {
-                boss.transform.localScale = Vector3.Lerp(boss.transform.localScale, new Vector3(finalScale, finalScale, 1),
-                    Time.deltaTime * 5f);
-            }
-            else {
-                boss.transform.localScale = Vector3.Lerp(boss.transform.localScale, new Vector3(smallestScale, smallestScale, smallestScale),
+                boss.transform.localScale = Vector3.Lerp(boss.transform.localScale,
+                    new Vector3(finalScale, finalScale, 1),
                     Time.deltaTime * 2f);
             }
+            else {
+                boss.transform.localScale = Vector3.Lerp(boss.transform.localScale,
+                    new Vector3(smallestScale, smallestScale, smallestScale),
+                    Time.deltaTime * 0.8f);
+                
+                if(boss.transform.localScale.x <= smallestScale + scaleFactor) {
+                    increasing = true;
+                }
+            }
 
-            if (boss.transform.localScale.x >= 1.2f) {
+            if (boss.transform.localScale.x >= finalScale - scaleFactor) {
                 boss.NextPhase();
             }
         }

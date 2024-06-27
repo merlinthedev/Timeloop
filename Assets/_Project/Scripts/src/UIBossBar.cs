@@ -22,7 +22,7 @@ namespace timeloop {
                 shouldCheck = false;
             }
             
-            Debug.Log("UIBossBar: " + e.fillAmount + " | " + image + " | " + boss + " | " + boss.name);
+            // Debug.Log("UIBossBar: " + e.fillAmount + " | " + image + " | " + boss + " | " + boss.name);
             image.fillAmount = e.fillAmount;
         }
         

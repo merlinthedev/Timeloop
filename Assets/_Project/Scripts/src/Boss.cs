@@ -30,7 +30,7 @@ namespace timeloop {
 
             RenderBossbar();
 
-            Debug.Log("Boss took damage! : " + damage);
+            // Debug.Log("Boss took damage! : " + damage);
         }
 
         protected virtual void RenderBossbar() {
@@ -38,8 +38,10 @@ namespace timeloop {
             EventBus<UIUpdateBossBarEvent>.Raise(new UIUpdateBossBarEvent(this, fillAmount));
         }
 
-        public virtual void GetPlayerPosition() {
+        public virtual Vector3 GetPlayerPosition() {
             playerPosition = playerEntity.transform.position;
+
+            return playerPosition;
         }
 
         public Image GetFillImage() {
