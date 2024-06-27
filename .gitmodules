@@ -1,1 +1,4 @@
 
+[submodule "Assets/_Project/Scripts/solobranch/qLib"]
+	path = Assets/_Project/Scripts/solobranch/qLib
+	url = https://github.com/solobranch/qLib
