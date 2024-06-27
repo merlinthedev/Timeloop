@@ -51,7 +51,7 @@ namespace timeloop {
         }
 
         private void Cast() {
-            Debug.Log("casting or smth");
+            //Debug.Log("casting or smth");
             currentState = BossState.COOLDOWN;
         }
 

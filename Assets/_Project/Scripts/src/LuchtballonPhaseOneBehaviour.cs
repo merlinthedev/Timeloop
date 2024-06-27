@@ -39,7 +39,7 @@ namespace timeloop {
             boss.SetInvulnerable(true);
             boss.SetMovementSpeed(0f);
             currentState = BossLuchtballonState.EXITING;
-            Debug.Log("Exising phase one");
+            //Debug.Log("Exising phase one");
         }
 
         private void HandleState() {
@@ -63,26 +63,28 @@ namespace timeloop {
         }
 
         private void HandleScaleLerping() {
-            Debug.Log("Lerping scale");
-            if (increasing) {
-                boss.transform.localScale = Vector3.Lerp(boss.transform.localScale,
-                    new Vector3(finalScale, finalScale, 1),
-                    Time.deltaTime * 2f);
-            }
-            else {
-                boss.transform.localScale = Vector3.Lerp(boss.transform.localScale,
-                    new Vector3(smallestScale, smallestScale, smallestScale),
-                    Time.deltaTime * 0.8f);
-                
-                if(boss.transform.localScale.x <= smallestScale + scaleFactor) {
-                    increasing = true;
-                }
+            // Constants for lerp speeds
+            const float increasingLerpSpeed = 2f;
+            const float decreasingLerpSpeed = 0.8f;
+
+            // Define target scales
+            Vector3 targetScale = increasing ? new Vector3(finalScale, finalScale, 1) : new Vector3(smallestScale, smallestScale, smallestScale);
+
+            // Lerp the scale
+            float lerpSpeed = increasing ? increasingLerpSpeed : decreasingLerpSpeed;
+            boss.transform.localScale = Vector3.Lerp(boss.transform.localScale, targetScale, Time.deltaTime * lerpSpeed);
+
+            // Check and switch direction if needed
+            if (!increasing && boss.transform.localScale.x <= smallestScale + scaleFactor) {
+                increasing = true;
             }
 
+            // Check and proceed to next phase if needed
             if (boss.transform.localScale.x >= finalScale - scaleFactor) {
                 boss.NextPhase();
             }
         }
+
 
         private void Move() {
             // if the entity reaches the player position, stop moving
