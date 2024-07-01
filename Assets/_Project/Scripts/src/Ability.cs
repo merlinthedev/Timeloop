@@ -12,8 +12,7 @@ namespace timeloop {
         }
 
         public abstract void OnUse(EntityDamager damager);
-
-
+        
         public void Initialize() {
             abilityTimer = 0f;
         }
