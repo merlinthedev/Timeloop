@@ -41,7 +41,7 @@ namespace timeloop {
             entity = other.GetComponent<EntityLiving>();
 
 
-            Debug.Log("Collision: " + entity.gameObject.name); // debugging purposes
+            // Debug.Log("Collision: " + entity.gameObject.name); // debugging purposes
             Collision();
         }
 
@@ -58,8 +58,8 @@ namespace timeloop {
         private void Collision() {
             if (entity != null && entity != boss && entity.IsAlive()) {
                 if (canAttack) {
-                    Debug.Log("attacking " + entity.gameObject.name + " with " + boss.GetDamage() * damageMultiplier +
-                              " damage");
+                    // Debug.Log("attacking " + entity.gameObject.name + " with " + boss.GetDamage() * damageMultiplier +
+                    //           " damage"); // debugging purposes
                     entity.TakeDamage(this, boss.GetDamage() * damageMultiplier);
                     attackTimer = attackCooldown;
                 }

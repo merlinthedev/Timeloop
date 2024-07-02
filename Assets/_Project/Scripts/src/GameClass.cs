@@ -54,7 +54,7 @@ namespace timeloop {
         public override void TakeDamage(Entity source, float damage) {
             base.TakeDamage(source, damage);
             
-            Debug.Log("Player took damage! : " + damage);
+            // Debug.Log("Player took damage! : " + damage); // debugging purposes
             
             // raise event for updating healthbar
             EventBus<UIUpdateHealthBarEvent>.Raise(new UIUpdateHealthBarEvent(health / maxHealth));

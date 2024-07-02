@@ -41,9 +41,11 @@ namespace timeloop {
                     // r = 1; // for testing purposes
                     if (!boss.CanCastAnyAbility()) {
                         currentState = BossState.MOVING;
+                        Debug.Log("<color=red>MOVING</color>");
                     }
                     else {
                         currentState = r == 0 ? BossState.MOVING : BossState.CASTING;
+                        Debug.Log(r == 0 ? "<color=red>MOVING</color>" : "<color=red>CASTING</color>");
                     }
 
                     break;
@@ -67,6 +69,7 @@ namespace timeloop {
 
             if (movementTimer <= 0) {
                 currentState = BossState.COOLDOWN;
+                Debug.Log("<color=red>COOLDOWN</color>");
 
                 // make sure that the next time we go into the moving state the timer has been reset.
                 movementTimer = movementTime;
@@ -74,13 +77,14 @@ namespace timeloop {
         }
 
         private void Cast() {
-            Debug.Log("Casting");
+            // Debug.Log("Casting"); // for testing purposes
             Ability ability = bossAbilities[Random.Range(0, bossAbilities.Count)];
             ability.OnUse(boss);
 
-            cooldownTime = ability.GetCooldown();
+            cooldownTimer = ability.GetCooldown();
 
-            currentState = BossState.EVALUATE;
+            currentState = BossState.COOLDOWN;
+            Debug.Log("<color=red>COOLDOWN</color>");
         }
 
         private void TickCooldownTimer() {
@@ -88,11 +92,14 @@ namespace timeloop {
 
             if (cooldownTimer <= 0) {
                 currentState = BossState.EVALUATE;
+                Debug.Log("<color=red>EVALUATING</color>");
 
                 // make sure that the next time we go into cooldown state the timer has been reset.
                 cooldownTimer = cooldownTime;
             }
         }
+
+        
 
         enum BossState {
             COOLDOWN,
