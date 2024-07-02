@@ -37,15 +37,15 @@ namespace timeloop {
                     TickCooldownTimer();
                     break;
                 case BossState.EVALUATE:
-                    int r = Random.Range(0, 2);
                     // r = 1; // for testing purposes
                     if (!boss.CanCastAnyAbility()) {
                         currentState = BossState.MOVING;
-                        Debug.Log("<color=red>MOVING</color>");
+                        // Debug.Log("<color=red>MOVING</color>");
                     }
                     else {
+                        int r = Random.Range(0, 2);
                         currentState = r == 0 ? BossState.MOVING : BossState.CASTING;
-                        Debug.Log(r == 0 ? "<color=red>MOVING</color>" : "<color=red>CASTING</color>");
+                        // Debug.Log(r == 0 ? "<color=red>MOVING</color>" : "<color=red>CASTING</color>");
                     }
 
                     break;
@@ -69,7 +69,7 @@ namespace timeloop {
 
             if (movementTimer <= 0) {
                 currentState = BossState.COOLDOWN;
-                Debug.Log("<color=red>COOLDOWN</color>");
+                // Debug.Log("<color=red>COOLDOWN</color>");
 
                 // make sure that the next time we go into the moving state the timer has been reset.
                 movementTimer = movementTime;
@@ -84,7 +84,7 @@ namespace timeloop {
             cooldownTimer = ability.GetCooldown();
 
             currentState = BossState.COOLDOWN;
-            Debug.Log("<color=red>COOLDOWN</color>");
+            // Debug.Log("<color=red>COOLDOWN</color>");
         }
 
         private void TickCooldownTimer() {
@@ -92,14 +92,13 @@ namespace timeloop {
 
             if (cooldownTimer <= 0) {
                 currentState = BossState.EVALUATE;
-                Debug.Log("<color=red>EVALUATING</color>");
+                // Debug.Log("<color=red>EVALUATING</color>");
 
                 // make sure that the next time we go into cooldown state the timer has been reset.
                 cooldownTimer = cooldownTime;
             }
         }
 
-        
 
         enum BossState {
             COOLDOWN,
