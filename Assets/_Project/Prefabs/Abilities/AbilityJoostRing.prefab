@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1a9ae9753648558d252622a98ccccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityCooldown: 4
+  abilityCooldown: 0
   ringPrefab: {fileID: 1672252955994437286, guid: 57ca1a3fc7d9284408f29b5948a46c51,
     type: 3}

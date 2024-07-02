@@ -615,6 +615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 2000
+  health: 0
   damage: 4
   dodgeCooldown: 4
   movementSpeed: 5.2
@@ -1076,12 +1077,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 7
+  health: 0
   damage: 3
+  attackCooldown: 1.2
+  bossAbilities:
+  - {fileID: 2646624886858341287, guid: e8caa2855dfc0f64fa116da0b90083f3, type: 3}
   movementSpeed: 12
   bossBarPrefab: {fileID: 4064093880965334193, guid: 478d8dbdcdb083848a45af5ed8ab70ce,
     type: 3}
-  bossAbilities:
-  - {fileID: 2646624886858341287, guid: e8caa2855dfc0f64fa116da0b90083f3, type: 3}
 --- !u!50 &1715997522
 Rigidbody2D:
   serializedVersion: 4

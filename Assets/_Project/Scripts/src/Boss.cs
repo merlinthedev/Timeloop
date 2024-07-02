@@ -87,5 +87,9 @@ namespace timeloop {
         public List<Ability> GetBossAbilities() {
             return bossAbilities;
         }
+
+        public GameClass GetPlayerEntity() {
+            return playerEntity;
+        }
     }
 }
