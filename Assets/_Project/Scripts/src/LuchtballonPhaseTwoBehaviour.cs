@@ -6,13 +6,17 @@ namespace timeloop {
         private readonly BossLuchtballon boss;
         private BossState currentState = BossState.COOLDOWN;
 
-        private const float cooldownTime = 1.2f;
+        private float cooldownTime = 1.2f;
         private float cooldownTimer = 0f;
+
+        private const float movementTime = 3f;
+        private float movementTimer = 0f;
 
         private List<Ability> bossAbilities;
 
         public LuchtballonPhaseTwoBehaviour(BossLuchtballon boss) {
             this.boss = boss;
+            bossAbilities = boss.GetBossAbilities();
         }
 
         public void Enter() {
@@ -34,10 +38,12 @@ namespace timeloop {
                     break;
                 case BossState.EVALUATE:
                     int r = Random.Range(0, 2);
+                    // r = 1; // for testing purposes
                     currentState = r == 0 ? BossState.MOVING : BossState.CASTING;
                     break;
                 case BossState.MOVING:
                     Move();
+                    TickMovementTimer();
                     break;
                 case BossState.CASTING:
                     Cast();
@@ -50,8 +56,24 @@ namespace timeloop {
                 boss.GetMovementSpeed() * Time.deltaTime);
         }
 
+        private void TickMovementTimer() {
+            movementTimer -= Time.deltaTime;
+
+            if (movementTimer <= 0) {
+                currentState = BossState.COOLDOWN;
+
+                // make sure that the next time we go into the moving state the timer has been reset.
+                movementTimer = movementTime;
+            }
+        }
+
         private void Cast() {
-            //Debug.Log("casting or smth");
+            Debug.Log("Casting");
+            Ability ability = bossAbilities[Random.Range(0, bossAbilities.Count)];
+            ability.OnUse(boss);
+
+            cooldownTime = ability.GetCooldown();
+
             currentState = BossState.COOLDOWN;
         }
 

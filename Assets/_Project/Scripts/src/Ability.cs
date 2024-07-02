@@ -2,9 +2,11 @@
 
 namespace timeloop {
     public abstract class Ability : MonoBehaviour {
+        
+        [Header("ABILITY")]
         [SerializeField] protected float abilityCooldown;
-        [SerializeField] protected float abilityTimer = 0f;
-        protected bool canUse => abilityTimer <= 0f;
+        protected float abilityTimer = 0f;
+        protected bool canUse => abilityTimer <= 0f; // can use ability if timer is 0 or lower 
 
 
         protected void PostAbilityUse() {
@@ -12,11 +14,11 @@ namespace timeloop {
         }
 
         public abstract void OnUse(EntityDamager damager);
-        
+
         public void Initialize() {
             abilityTimer = 0f;
         }
-        
+
         public void Tick() {
             TickAbilityCooldown();
         }
@@ -25,6 +27,10 @@ namespace timeloop {
             if (abilityTimer > 0f) {
                 abilityTimer -= Time.deltaTime;
             }
+        }
+
+        public float GetCooldown() {
+            return abilityCooldown;
         }
     }
 }

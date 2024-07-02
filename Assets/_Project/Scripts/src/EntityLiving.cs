@@ -2,10 +2,12 @@
 
 namespace timeloop {
     public abstract class EntityLiving : Entity {
-        [Header("ENTITY LIVING")]
-        [SerializeField] protected float maxHealth;
-        protected float health;
+        [Header("ENTITY LIVING")] [SerializeField]
+        protected float maxHealth;
+
+        [SerializeField] protected float health; // serialized for debugging purposes.
         protected bool invulnerable = false;
+        private bool alive => health > 0;
 
         protected virtual void Start() {
             health = maxHealth;
@@ -30,6 +32,10 @@ namespace timeloop {
 
         public void SetInvulnerable(bool invulnerable) {
             this.invulnerable = invulnerable;
+        }
+
+        public bool IsAlive() {
+            return alive;
         }
     }
 }

@@ -10,9 +10,10 @@ namespace timeloop {
 
         [SerializeField] private GameObject bossBarPrefab;
 
-
         private List<IBossBehaviour> behaviours;
         private IBossBehaviour currentBehaviour;
+
+        [SerializeField] private List<Ability> bossAbilities = new();
 
         protected override void Start() {
             base.Start();
@@ -38,6 +39,9 @@ namespace timeloop {
 
             // tick the current phase
             currentBehaviour.Tick();
+            for (int i = 0; i < bossAbilities.Count; i++) {
+                bossAbilities[i].Tick();
+            }
         }
 
         public override void TakeDamage(Entity source, float damage) {
@@ -90,6 +94,10 @@ namespace timeloop {
 
         public void SetMovementSpeed(float movementSpeed) {
             this.movementSpeed = movementSpeed;
+        }
+
+        public List<Ability> GetBossAbilities() {
+            return bossAbilities;
         }
 
         #endregion

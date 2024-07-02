@@ -9,10 +9,10 @@ namespace timeloop {
         private BossLuchtballon boss;
 
         // attack
-        private float attackCooldown = 0.8f;
+        private float attackCooldown = 0.6f;
         private float attackTimer = 0;
         private EntityLiving entity;
-        private bool canAttack => attackTimer > 0;
+        private bool canAttack => attackTimer <= 0;
 
         public void Initialize(BossLuchtballon boss) {
             this.boss = boss;
@@ -21,11 +21,12 @@ namespace timeloop {
         private void Update() {
             TickCooldown();
         }
-        
+
         private void FixedUpdate() {
             if (transform.localScale.x < maxRadius) {
                 transform.localScale += new Vector3(increaseSizeSpeed, increaseSizeSpeed, 0);
-            } else {
+            }
+            else {
                 Destroy(gameObject);
             }
         }
@@ -39,6 +40,8 @@ namespace timeloop {
         private void OnTriggerEnter2D(Collider2D other) {
             entity = other.GetComponent<EntityLiving>();
 
+
+            Debug.Log("Collision: " + entity.gameObject.name); // debugging purposes
             Collision();
         }
 
@@ -53,8 +56,10 @@ namespace timeloop {
         }
 
         private void Collision() {
-            if (entity != null) {
+            if (entity != null && entity != boss && entity.IsAlive()) {
                 if (canAttack) {
+                    Debug.Log("attacking " + entity.gameObject.name + " with " + boss.GetDamage() * damageMultiplier +
+                              " damage");
                     entity.TakeDamage(this, boss.GetDamage() * damageMultiplier);
                     attackTimer = attackCooldown;
                 }
