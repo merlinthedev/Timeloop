@@ -13,7 +13,6 @@ namespace timeloop {
         private List<IBossBehaviour> behaviours;
         private IBossBehaviour currentBehaviour;
 
-        [SerializeField] private List<Ability> bossAbilities = new();
 
         protected override void Start() {
             base.Start();
@@ -39,9 +38,6 @@ namespace timeloop {
 
             // tick the current phase
             currentBehaviour.Tick();
-            for (int i = 0; i < bossAbilities.Count; i++) {
-                bossAbilities[i].Tick();
-            }
         }
 
         public override void TakeDamage(Entity source, float damage) {
@@ -52,7 +48,7 @@ namespace timeloop {
                 currentBehaviour.Exit();
             }
         }
-
+        
         public void NextPhase() {
             // set the currentBehaviour to the next in the list, do not hard code the index
             if (behaviours.IndexOf(currentBehaviour) + 1 >= behaviours.Count) {
@@ -95,10 +91,7 @@ namespace timeloop {
         public void SetMovementSpeed(float movementSpeed) {
             this.movementSpeed = movementSpeed;
         }
-
-        public List<Ability> GetBossAbilities() {
-            return bossAbilities;
-        }
+        
 
         #endregion
     }

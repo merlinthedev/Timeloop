@@ -5,7 +5,7 @@ namespace timeloop {
         
         [Header("ABILITY")]
         [SerializeField] protected float abilityCooldown;
-        protected float abilityTimer = 0f;
+        private float abilityTimer = 0f;
         protected bool canUse => abilityTimer <= 0f; // can use ability if timer is 0 or lower 
 
 
@@ -31,6 +31,10 @@ namespace timeloop {
 
         public float GetCooldown() {
             return abilityCooldown;
+        }
+
+        public bool CanUse() {
+            return canUse;
         }
     }
 }

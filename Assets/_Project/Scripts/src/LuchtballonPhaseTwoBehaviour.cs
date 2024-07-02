@@ -39,7 +39,13 @@ namespace timeloop {
                 case BossState.EVALUATE:
                     int r = Random.Range(0, 2);
                     // r = 1; // for testing purposes
-                    currentState = r == 0 ? BossState.MOVING : BossState.CASTING;
+                    if (!boss.CanCastAnyAbility()) {
+                        currentState = BossState.MOVING;
+                    }
+                    else {
+                        currentState = r == 0 ? BossState.MOVING : BossState.CASTING;
+                    }
+
                     break;
                 case BossState.MOVING:
                     Move();
@@ -74,7 +80,7 @@ namespace timeloop {
 
             cooldownTime = ability.GetCooldown();
 
-            currentState = BossState.COOLDOWN;
+            currentState = BossState.EVALUATE;
         }
 
         private void TickCooldownTimer() {

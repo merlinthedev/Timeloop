@@ -1,14 +1,18 @@
-﻿using solobranch.qLib;
+﻿using System.Collections.Generic;
+using solobranch.qLib;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace timeloop {
     public abstract class Boss : EntityDamager {
-        public GameClass playerEntity { get; protected set; }
+        [Header("BOSS")] [SerializeField] private float attackCooldown = 1.2f;
+        private float attackTimer = 0f;
+        private GameClass playerEntity { get; set; }
         public Vector2 playerPosition { get; protected set; }
         protected Image final;
         protected GameObject bossBar;
 
+        [SerializeField] protected List<Ability> bossAbilities = new();
 
         protected override void Start() {
             base.Start();
@@ -17,11 +21,33 @@ namespace timeloop {
         }
 
         protected virtual void Update() {
+            if (attackTimer > 0) {
+                attackTimer -= Time.deltaTime;
+            }
+
+            TickBossAbilities();
+        }
+
+        private void TickBossAbilities() {
+            for (int i = 0; i < bossAbilities.Count; i++) {
+                bossAbilities[i].Tick();
+            }
         }
 
         protected virtual void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag("Player")) {
                 playerEntity.TakeDamage(this, damage);
+            }
+        }
+
+        protected virtual void OnTriggerStay2D(Collider2D other) {
+            if (attackTimer > 0) return;
+
+            if (other.CompareTag("Player")) {
+                EntityLiving entityLiving = other.GetComponent<EntityLiving>();
+                entityLiving.TakeDamage(this, damage);
+
+                attackTimer = attackCooldown;
             }
         }
 
@@ -46,6 +72,20 @@ namespace timeloop {
 
         public Image GetFillImage() {
             return final;
+        }
+
+        public bool CanCastAnyAbility() {
+            for (int i = 0; i < bossAbilities.Count; i++) {
+                if (bossAbilities[i].CanUse()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        
+        public List<Ability> GetBossAbilities() {
+            return bossAbilities;
         }
     }
 }
