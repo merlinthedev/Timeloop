@@ -37,17 +37,10 @@ namespace timeloop {
                     TickCooldownTimer();
                     break;
                 case BossState.EVALUATE:
+                    int r = Random.Range(0, 2);
                     // r = 1; // for testing purposes
-                    if (!boss.CanCastAnyAbility()) {
-                        currentState = BossState.MOVING;
-                        // Debug.Log("<color=red>MOVING</color>");
-                    }
-                    else {
-                        int r = Random.Range(0, 2);
-                        currentState = r == 0 ? BossState.MOVING : BossState.CASTING;
-                        // Debug.Log(r == 0 ? "<color=red>MOVING</color>" : "<color=red>CASTING</color>");
-                    }
-
+                    currentState = r == 0 ? BossState.MOVING : BossState.CASTING;
+                    // Debug.Log(r == 0 ? "<color=red>MOVING</color>" : "<color=red>CASTING</color>");
                     break;
                 case BossState.MOVING:
                     Move();
@@ -81,7 +74,6 @@ namespace timeloop {
             Ability ability = bossAbilities[Random.Range(0, bossAbilities.Count)];
             ability.OnUse(boss);
 
-            cooldownTimer = ability.GetCooldown();
 
             currentState = BossState.COOLDOWN;
             // Debug.Log("<color=red>COOLDOWN</color>");
