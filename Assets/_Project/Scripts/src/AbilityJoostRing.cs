@@ -6,7 +6,7 @@ namespace timeloop {
 
         public override void OnUse(EntityDamager damager) {
             if (!canUse) {
-                Debug.Log("Cant use " + GetType().Name + " yet!");
+                // Debug.Log("Cant use " + GetType().Name + " yet!");
                 return; // is probably on cooldown
             }
 
