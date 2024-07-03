@@ -62,6 +62,10 @@ namespace timeloop {
             }
         }
 
+        private void Cast() {
+            boss.GetBossAbilities().Find(ability => ability.GetType() == typeof(AbilityJoostCigarette)).OnUse(boss);
+        }
+
         private void HandleScaleLerping() {
             // Constants for lerp speeds
             const float increasingLerpSpeed = 2f;
@@ -104,6 +108,8 @@ namespace timeloop {
             movementTimer -= Time.deltaTime;
 
             if (movementTimer <= 0f) {
+                Cast();
+                
                 currentState = BossLuchtballonState.IDLE;
             }
         }

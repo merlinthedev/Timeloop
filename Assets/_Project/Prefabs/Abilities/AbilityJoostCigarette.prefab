@@ -45,5 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityCooldown: 0
-  cigarettePrefab: {fileID: 0}
-  entityMovementSpeed: 20
+  cigarettePrefab: {fileID: 40401107299868563, guid: a29cb98093bd70d47abab275bff2811f,
+    type: 3}
+  entityMovementSpeed: 25
