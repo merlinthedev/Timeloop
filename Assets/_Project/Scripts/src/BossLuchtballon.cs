@@ -21,6 +21,7 @@ namespace timeloop {
 
             bossBar = Instantiate(bossBarPrefab, CanvasSingleton.instance.transform);
 
+            // this is a bit hacky, but it works for now TODO: refactor
             Image[] images = bossBar.GetComponentsInChildren<Image>();
             for (int i = 0; i < images.Length; i++) {
                 if (images[i].fillMethod == Image.FillMethod.Horizontal) {
