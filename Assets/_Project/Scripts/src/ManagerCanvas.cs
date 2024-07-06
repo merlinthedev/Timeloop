@@ -4,27 +4,19 @@ using UnityEngine;
 
 namespace timeloop {
     [DefaultExecutionOrder(-1)]
-    public class ManagerCanvas : Singleton<Canvas> {
-        private static Canvas _instance;
+    public class ManagerCanvas : Singleton<ManagerCanvas> {
+        public Canvas canvas { get; private set; }
 
-        public static Canvas instance {
-            get {
-                if (_instance == null) {
-                    _instance = FindObjectOfType<Canvas>();
-                }
+        protected override void Awake() {
+            base.Awake();
 
-                return _instance;
-            }
-
-            private set { _instance = value; }
+            canvas = GetComponent<Canvas>();
         }
 
-        private void Awake() {
-            instance = this.GetComponent<Canvas>();
-        }
-
-        private void OnDestroy() {
-            _instance = null;
+        // destroy
+        protected override void OnApplicationQuit() {
+            base.OnApplicationQuit();
+            canvas = null;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace timeloop {
 
             RenderBossbar();
 
-            bossBar = Instantiate(bossBarPrefab, ManagerCanvas.instance.transform);
+            bossBar = Instantiate(bossBarPrefab, ManagerCanvas.GetInstance().canvas.transform);
 
             // this is a bit hacky, but it works for now TODO: refactor
             Image[] images = bossBar.GetComponentsInChildren<Image>();
