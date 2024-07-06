@@ -1,9 +1,10 @@
 ﻿using System;
+using solobranch.qLib;
 using UnityEngine;
 
 namespace timeloop {
     [DefaultExecutionOrder(-1)]
-    public class CanvasSingleton : MonoBehaviour {
+    public class ManagerCanvas : Singleton<Canvas> {
         private static Canvas _instance;
 
         public static Canvas instance {
