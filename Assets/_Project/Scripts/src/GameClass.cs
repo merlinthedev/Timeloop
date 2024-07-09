@@ -27,8 +27,8 @@ namespace timeloop {
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
             
-            ability1?.Initialize();
-            ability2?.Initialize();
+            ability1?.Initialize(this);
+            ability2?.Initialize(this);
         }
         
         protected virtual void Update() {

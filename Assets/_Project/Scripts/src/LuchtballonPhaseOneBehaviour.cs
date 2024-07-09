@@ -64,7 +64,9 @@ namespace timeloop {
 
         private void Cast() {
             boss.GetBossAbilities().Find(ability => ability.GetType() == typeof(AbilityJoostCigarette)).OnUse(boss);
+            // boss.GetBossAbilities()[0].OnUse(boss);
         }
+        
 
         private void HandleScaleLerping() {
             // Constants for lerp speeds

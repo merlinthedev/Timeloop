@@ -5,9 +5,9 @@ namespace timeloop {
     public abstract class Ability : MonoBehaviour {
         [Header("ABILITY")] [SerializeField] protected float abilityCooldown;
         private float abilityTimer = 0f;
-        [SerializeField] private Image abilityImage;
         protected bool canUse => abilityTimer <= 0f; // can use ability if timer is 0 or lower 
 
+        private EntityDamager damager;
 
         protected void PostAbilityUse() {
             abilityTimer = abilityCooldown;
@@ -15,17 +15,23 @@ namespace timeloop {
 
         public abstract void OnUse(EntityDamager damager);
 
-        public void Initialize() {
+        public void Initialize(EntityDamager damager) {
+            this.damager = damager;
             abilityTimer = 0f;
 
-            Hook();
+            if (this.damager is GameClass) {
+                Hook();
+            }
         }
 
         private void Hook() {
+            ManagerCanvas.GetInstance().Hook(this);
         }
 
-        public void Tick() {
+        public float Tick() {
             TickAbilityCooldown();
+
+            return abilityTimer / abilityCooldown;
         }
 
         private void TickAbilityCooldown() {
