@@ -772,7 +772,7 @@ MonoBehaviour:
   movementVector: {x: 0, y: 0}
   ability1: {fileID: -8708657421798505969, guid: e207faa752ca59a4480750f473479c36,
     type: 3}
-  ability2: {fileID: 2646624886858341287, guid: e8caa2855dfc0f64fa116da0b90083f3,
+  ability2: {fileID: 8475553538588700429, guid: 503eed058f776de4a8057963a642e594,
     type: 3}
   blinkDistance: 3.5
 --- !u!61 &703392331
