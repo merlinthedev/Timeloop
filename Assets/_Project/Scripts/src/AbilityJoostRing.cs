@@ -14,7 +14,8 @@ namespace timeloop {
             EntityJoostRing joostRing = ring.GetComponent<EntityJoostRing>();
             
             // EntityJoostRing ring = ringPrefab.GetComponent<EntityJoostRing>();
-            joostRing.Initialize(damager as BossLuchtballon); // kind of hacky, but it works
+            joostRing.Initialize(damager);
+            
             
             base.PostAbilityUse();
         }

@@ -6,7 +6,7 @@ namespace timeloop {
         [SerializeField] private float damageMultiplier;
         [SerializeField] private float maxRadius; // radius
         private Collider2D col;
-        private BossLuchtballon boss;
+        private EntityDamager boss;
 
         // attack
         private float attackCooldown = 0.6f;
@@ -14,7 +14,7 @@ namespace timeloop {
         private EntityLiving entity;
         private bool canAttack => attackTimer <= 0;
 
-        public void Initialize(BossLuchtballon boss) {
+        public void Initialize(EntityDamager boss) {
             this.boss = boss;
         }
 
