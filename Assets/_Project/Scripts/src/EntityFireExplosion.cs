@@ -20,23 +20,28 @@ namespace timeloop {
             this.owner = owner;
             this.damage = damage;
 
-            shouldTick = true;  
+            shouldTick = true;
         }
 
         private void Update() {
             if (!shouldTick) return;
             lifetime -= Time.deltaTime;
             if (lifetime <= 0) {
+                Explode();
                 Destroy(gameObject);
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D other) {
-            EntityLiving living = other.gameObject.GetComponent<EntityLiving>();
-            if (living == null) return;
-            if (living.gameObject == owner.gameObject) return;
-
-            living.TakeDamage(owner, damage);
+        private void Explode() {
+            // check all current colliders in the explosion radius
+            Collider2D[] colliders =
+                Physics2D.OverlapCircleAll(transform.position, (collider2d as CircleCollider2D).radius);
+            foreach (Collider2D col in colliders) {
+                EntityLiving entity = col.GetComponent<EntityLiving>();
+                if (entity != null && entity != owner && entity.IsAlive()) {
+                    entity.TakeDamage(owner, damage);
+                }
+            }
         }
     }
 }

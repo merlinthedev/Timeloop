@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityCooldown: 0
   prefab: {fileID: 1240358098308241314, guid: f2db6dc179598604cad7f7a4baf64e91, type: 3}
-  ringCount: 16
-  ringInterval: 3
-  ringRadius: 10
+  ringCount: 24
+  ringInterval: 0.05
+  ringRadius: 15
   damageMultiplier: 1.2
