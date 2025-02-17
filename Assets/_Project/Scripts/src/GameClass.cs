@@ -61,13 +61,13 @@ namespace timeloop {
         }
 
         protected virtual void FixedUpdate() {
-            rb.velocity = movementVector * movementSpeed;
-            animator.SetBool("IsMoving", rb.velocity != Vector2.zero);
+            rb.linearVelocity = movementVector * movementSpeed;
+            animator.SetBool("IsMoving", rb.linearVelocity != Vector2.zero);
 
-            if (rb.velocity.x > 0) {
+            if (rb.linearVelocity.x > 0) {
                 transform.localScale = new Vector3(-1, 1, 1);
             }
-            else if (rb.velocity.x < 0) {
+            else if (rb.linearVelocity.x < 0) {
                 transform.localScale = new Vector3(1, 1, 1);
             }
         }
